@@ -5,7 +5,14 @@ end
 Given /^a node of class "([^\"]*)" with parameters:$/ do |klass, params|
   parameters = {}
   params.hashes.each do |param|
-    parameters[param['name']] = param['value']
+	# cucumber-puppet will struggle with passing boolean values, this fixes that
+	if param['value'] == "true"
+	  parameters[param['name']] = true
+	elsif param['value'] == "false"
+	  parameters[param['name']] = false
+	else 
+	  parameters[param['name']] = param['value']
+	end
   end
   @klass = { klass => parameters }
 end

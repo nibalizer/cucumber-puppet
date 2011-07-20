@@ -42,3 +42,27 @@ Then /^there should be a (file|script) "([^\"]*)"$/ do |type, name|
     And the #{type} should have standard permissions
   }
 end
+
+Then /^there should be a directory "([^\"]*)"$/ do |name|
+  steps %Q{
+    Then there should be a resource "File[#{name}]"
+    And the state should be "directory"
+    And the directory should have standard permissions
+  }
+end
+
+Then /^there should be a (file|script) "([^\"]*)" with "([^\"]*)" of "([^\"]*)"$/ do |type, name, prop, value|
+  steps %Q{
+    Then there should be a resource "File[#{name}]"
+    And the state should be "present"
+	And the #{type} should have a "#{prop}" of "#{value}"
+  }
+end
+
+Then /^there should be a directory "([^\"]*)" with "([^\"]*)" of "([^\"]*)"$/ do |name, prop, value|
+  steps %Q{
+    Then there should be a resource "File[#{name}]"
+    And the state should be "directory"
+	And the directory should have a "#{prop}" of "#{value}"
+  }
+end
